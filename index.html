@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>お給料ノート</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="accent.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">給</span><div><strong>お給料ノート</strong><small>PAYROLL MANAGEMENT</small></div></div>
+      <nav>
+        <button class="nav active" data-view="dashboard"><span>⌂</span>ホーム</button>
+        <button class="nav" data-view="entry"><span>＋</span>勤務を入力</button>
+        <button class="nav" data-view="statements"><span>▤</span>給与明細</button>
+        <button class="nav" data-view="staff"><span>♙</span>スタッフ管理</button>
+      </nav>
+      <div class="sidebar-foot">データはこの端末に<br>自動保存されます</div>
+    </aside>
+
+    <main>
+      <header><div><p class="eyebrow">PAYROLL MANAGEMENT</p><h1 id="pageTitle">今月の給与</h1></div><div id="today" class="today"></div></header>
+
+      <section id="dashboard" class="view active">
+        <div class="month-bar"><button id="prevMonth">‹</button><label><input id="dashMonth" type="month"></label><button id="nextMonth">›</button></div>
+        <div class="stats">
+          <article class="stat cream"><span>支給予定額</span><strong id="totalPay">¥0</strong><small id="totalPaySub">0名分</small></article>
+          <article class="stat"><span>総勤務時間</span><strong id="totalHours">0時間</strong><small>15分単位で集計</small></article>
+          <article class="stat"><span>勤務件数</span><strong id="totalShifts">0件</strong><small id="venueCount">0会場</small></article>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><p class="eyebrow">MONTHLY SUMMARY</p><h2>スタッフ別の集計</h2></div><button class="primary" data-go="entry">＋ 勤務を追加</button></div>
+          <div id="staffSummary" class="summary-list"></div>
+        </div>
+      </section>
+
+      <section id="entry" class="view">
+        <div class="panel narrow">
+          <div class="panel-head"><div><p class="eyebrow">NEW SHIFT</p><h2>勤務を記録</h2></div></div>
+          <form id="shiftForm" class="form-grid">
+            <label>スタッフ<select id="shiftStaff" required></select></label>
+            <label>日付<input id="shiftDate" type="date" required></label>
+            <label class="wide">会場名<input id="venue" list="venueOptions" placeholder="例：渋谷イベントホール" required><datalist id="venueOptions"></datalist><small>過去30日間に入力した会場を候補表示します</small></label>
+            <label class="time-field">開始時間<input id="startTime" type="time" step="900" required></label>
+            <label class="time-field">終了時間<input id="endTime" type="time" step="900" required></label>
+            <label class="time-field">休憩（分）<input id="breakMinutes" type="number" min="0" step="15" value="0" required></label>
+            <label>交通費<select id="transport"><option value="0">なし</option><option value="500">500円</option><option value="1000">1,000円</option><option value="2000">2,000円</option><option value="3000">3,000円</option></select></label>
+            <label class="check wide"><input id="cancelled" type="checkbox"><span>仕事中止の補填金 3,000円を支給（勤務時間は計上しません）</span></label>
+            <div id="entryPreview" class="preview wide"></div>
+            <div class="actions wide"><button type="reset" class="ghost" id="clearShiftBtn">入力をクリア</button><button type="submit" class="primary" id="saveShiftBtn">この勤務を保存</button></div>
+          </form>
+        </div>
+        <div class="panel narrow"><div class="panel-head"><h2>最近の勤務</h2></div><div id="recentShifts"></div></div>
+      </section>
+
+      <section id="statements" class="view">
+        <div class="filters"><label>スタッフ<select id="statementStaff"></select></label><label>対象月<input id="statementMonth" type="month"></label></div>
+        <div class="panel">
+          <div class="panel-head"><div><p class="eyebrow">PAY SLIP</p><h2 id="statementTitle">給与明細</h2></div><div class="button-row"><button id="csvBtn" class="ghost">CSVを書き出す</button><button id="imageBtn" class="primary">明細画像を保存</button></div></div>
+          <div id="statementContent"></div>
+        </div>
+        <div class="panel"><div class="panel-head"><div><p class="eyebrow">YEARLY</p><h2>年間明細</h2></div><label>年<input id="statementYear" type="number" min="2020" max="2100"></label></div><div id="yearlyContent"></div></div>
+      </section>
+
+      <section id="staff" class="view">
+        <div class="panel narrow">
+          <div class="panel-head"><div><p class="eyebrow">TEAM</p><h2>スタッフ管理</h2></div></div>
+          <form id="staffForm" class="staff-add"><input id="staffName" placeholder="スタッフ名" required><select id="staffRate"><option value="1100">通常 1,100円</option><option value="1000">研修中 1,000円</option></select><button class="primary">追加</button></form>
+          <div id="staffList"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div id="toast" class="toast"></div>
+  <canvas id="slipCanvas" hidden></canvas>
+  <script src="app.js"></script>
+</body>
+</html>
