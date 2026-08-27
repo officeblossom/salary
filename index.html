@@ -67,7 +67,9 @@
       <section id="staff" class="view">
         <div class="panel narrow">
           <div class="panel-head"><div><p class="eyebrow">TEAM</p><h2>スタッフ管理</h2></div></div>
-          <form id="staffForm" class="staff-add"><input id="staffName" placeholder="スタッフ名" required><select id="staffRate"><option value="1100">通常 1,100円</option><option value="1000">研修中 1,000円</option></select><button class="primary">追加</button></form>
+          <div class="candidate-head"><div><strong>スタッフを選んで追加</strong><small>追加時の時給区分</small></div><select id="staffRate"><option value="1100">通常 1,100円</option><option value="1000">研修中 1,000円</option></select></div>
+          <div id="staffCandidates" class="staff-candidates"></div>
+          <div class="list-divider"><span>登録中のスタッフ</span></div>
           <div id="staffList"></div>
         </div>
       </section>
